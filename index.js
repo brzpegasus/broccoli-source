@@ -8,7 +8,13 @@ function Directory(directoryPath, watched, options) {
 
   options = options || {}
   this._name = options.name || (this.constructor && this.constructor.name) || 'Directory'
-  this._annotation = options.annotation
+  this._annotation = options.annotation || directoryPath
+
+  // For compatibility with broccoli@0.16.9
+  this.description = this._name
+  if (this._annotation) {
+    this.description += ': ' + this._annotation
+  }
 
   // Remember current call stack (minus "Error" line)
   this._instantiationStack = (new Error).stack.replace(/[^\n]*\n/, '')
